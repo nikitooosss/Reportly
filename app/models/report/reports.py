@@ -1,16 +1,19 @@
 import enum
 from datetime import date
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Date, Enum, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.config.database import Base
-from app.models.report.report_rows import (
-    ReportSection1Row,
-    ReportSection2Row,
-    ReportSection3Row,
-    ReportSection4Row,
-)
+
+if TYPE_CHECKING:
+    from app.models.report.report_rows import (
+        ReportSection1Row,
+        ReportSection2Row,
+        ReportSection3Row,
+        ReportSection4Row,
+    )
 
 
 class ReportStatus(enum.Enum):
@@ -35,13 +38,13 @@ class Report(Base):
     __tablename__ = "reports"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    department_type: Mapped[DepartmentType] = mapped_column(Enum, nullable=False)
-    report_type: Mapped[ReportType] = mapped_column(Enum, nullable=False)
+    department_type: Mapped[DepartmentType] = mapped_column(Enum(DepartmentType, name="department type"), nullable=False)
+    report_type: Mapped[ReportType] = mapped_column(Enum(ReportType, name="report type"), nullable=False)
     period_from: Mapped[date] = mapped_column(Date, nullable=False)
     period_to: Mapped[date] = mapped_column(Date, nullable=False)
     created_at: Mapped[date] = mapped_column(Date, nullable=False)
     created_by_id: Mapped[int] = mapped_column(Integer, nullable=False)
-    status: Mapped[ReportStatus] = mapped_column(Enum, nullable=False)
+    status: Mapped[ReportStatus] = mapped_column(Enum(ReportStatus, name="report status"), nullable=False)
 
     report_section1_row: Mapped[list[ReportSection1Row]] = relationship(
             "ReportSection1Row",

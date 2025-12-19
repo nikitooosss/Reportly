@@ -1,10 +1,14 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.config.database import Base
-from app.models.report.indicators import Indicator
-from app.models.report.reports import Report
-from app.models.report.violation_categories import ViolationCategory
+
+if TYPE_CHECKING:
+    from app.models.report.indicators import Indicator
+    from app.models.report.reports import Report
+    from app.models.report.violation_categories import ViolationCategory
 
 
 class ReportSection1Row(Base):
@@ -87,19 +91,15 @@ class ReportSection3Row(Base):
         ForeignKey("indicators.id"),
         nullable=False
     )
-    # Questionable, because fild is int or "X"
-    # total_count: Mapped[] = relationship()
 
-    total_level_1_talks_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    total_level_2_talks_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    meetings: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    briefings: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    initial_briefings: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    re_briefings: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    targeted_briefings: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    unscheduled_briefings: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
-    # Questionable, because fild is int or "X"
-    # total_state_talks_count: Mapped[] = relationship()
+    total_level_1_talks_count: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
+    total_level_2_talks_count: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
+    meetings: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
+    briefings: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
+    initial_briefings: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
+    re_briefings: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
+    targeted_briefings: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
+    unscheduled_briefings: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
 
     report: Mapped[Report] = relationship(
         "Report",

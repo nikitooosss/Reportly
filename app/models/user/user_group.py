@@ -1,9 +1,13 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.config.database import Base
-from app.models.user.groups import Group
-from app.models.user.users import User
+
+if TYPE_CHECKING:
+    from app.models.user.groups import Group
+    from app.models.user.users import User
 
 
 class UserGroup(Base):

@@ -1,8 +1,12 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.config.database import Base
-from app.models.user.user_group import UserGroup
+
+if TYPE_CHECKING:
+    from app.models.user.user_group import UserGroup
 
 
 class Group(Base):
